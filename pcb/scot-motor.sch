@@ -14,72 +14,73 @@ Comment3 ""
 Comment4 ""
 $EndDescr
 $Sheet
-S 2000 2950 2200 1150
+S 2750 2850 2200 1150
 U 5E55A5CD
 F0 "CAN Transceiver" 50
 F1 "scot-can-txrx.sch" 50
-F2 "CAN_L" I L 2000 3350 50 
-F3 "CAN_H" I L 2000 3600 50 
-F4 "CAN_MCU_RXD" I R 4200 3700 50 
-F5 "CAN_MCU_TXD" I R 4200 3600 50 
-F6 "3.3V_MCU" I R 4200 3050 50 
-F7 "5V_CAN" I R 4200 3200 50 
-F8 "LV_GND" I R 4200 3350 50 
+F2 "CAN_L" I L 2750 3500 50 
+F3 "CAN_H" I L 2750 3250 50 
+F4 "CAN_MCU_RXD" I R 4950 3600 50 
+F5 "CAN_MCU_TXD" I R 4950 3500 50 
+F6 "3.3V_MCU" I R 4950 2950 50 
+F7 "5V_CAN" I R 4950 3100 50 
 $EndSheet
 $Sheet
-S 6700 2450 1200 1500
+S 6550 2500 1200 1500
 U 5E55A713
 F0 "MCU" 50
 F1 "scot-motor-mcu.sch" 50
-F2 "MOTOR_A" I R 7900 2600 50 
-F3 "MOTOR_B" I R 7900 2700 50 
-F4 "LIMIT_1A" I R 7900 2850 50 
-F5 "LIMIT_1B" I R 7900 2950 50 
-F6 "LIMIT_2A" I R 7900 3100 50 
-F7 "LIMIT_2B" I R 7900 3200 50 
-F8 "ESTOP_B" I R 7900 3500 50 
-F9 "ESTOP_A" I R 7900 3400 50 
-F10 "VI_I2C_SCL" I L 6700 2850 50 
-F11 "VI_I2C_SDA" I L 6700 2950 50 
+F2 "MOTOR_A" I R 7750 2650 50 
+F3 "MOTOR_B" I R 7750 2750 50 
+F4 "LIMIT_1A" I R 7750 2900 50 
+F5 "LIMIT_1B" I R 7750 3000 50 
+F6 "LIMIT_2A" I R 7750 3150 50 
+F7 "LIMIT_2B" I R 7750 3250 50 
+F8 "ESTOP_B" I R 7750 3550 50 
+F9 "ESTOP_A" I R 7750 3450 50 
+F10 "VI_I2C_SCL" I L 6550 3000 50 
+F11 "VI_I2C_SDA" I L 6550 2900 50 
+F12 "3V3_MCU" I L 6550 2750 50 
+F13 "VI_ALERT" I L 6550 3100 50 
+F14 "MOTOR_VCC" I L 6550 2600 50 
+F15 "CAN_MCU_RX" I L 6550 3600 50 
+F16 "CAN_MCU_TX" I L 6550 3500 50 
 $EndSheet
 $Sheet
 S 3300 850  1650 1650
 U 5E55A987
 F0 "Power Supplies" 50
 F1 "scot-motor-power.sch" 50
-F2 "POWER_28V+" I L 3300 1000 50 
-F3 "POWER_28V-" I L 3300 1100 50 
+F2 "POWER_28V+" I L 3300 1250 50 
 F4 "3V3_MCU" I R 4950 2200 50 
 F5 "5V_CAN" I R 4950 2050 50 
-F6 "MOTOR_28V-" I R 4950 1100 50 
 F7 "MOTOR_28V+" I R 4950 1000 50 
 F8 "VI_SDA" I R 4950 1500 50 
 F9 "VI_SCL" I R 4950 1600 50 
 F10 "VI_ALERT" I R 4950 1700 50 
-F11 "LV_GND" I R 4950 2350 50 
 $EndSheet
 $Comp
-L Connector:Conn_01x02_Female J?
+L Connector:Conn_01x02_Female J3
 U 1 1 5E880BD6
-P 2250 1100
-F 0 "J?" H 2142 775 50  0000 C CNN
-F 1 "Conn_01x02_Female" H 2142 866 50  0000 C CNN
-F 2 "" H 2250 1100 50  0001 C CNN
-F 3 "~" H 2250 1100 50  0001 C CNN
-	1    2250 1100
+P 1800 1350
+F 0 "J3" H 1692 1025 50  0000 C CNN
+F 1 "Conn_01x02_Female" H 1692 1116 50  0000 C CNN
+F 2 "TerminalBlock_RND:TerminalBlock_RND_205-00287_1x02_P5.08mm_Horizontal" H 1800 1350 50  0001 C CNN
+F 3 "~" H 1800 1350 50  0001 C CNN
+	1    1800 1350
 	-1   0    0    1   
 $EndComp
-Text Notes 2000 1300 0    50   ~ 0
->0.1" Terminal Block
+Text Notes 1550 1550 0    50   ~ 0
+0.2" Terminal Block
 Text Notes 9000 2850 0    50   ~ 0
->0.1" Terminal Block
+0.2" Terminal Block
 $Comp
-L Connector:Conn_01x02_Female J?
+L Connector:Conn_01x02_Female J4
 U 1 1 5F16698D
 P 9500 2700
-F 0 "J?" H 9392 2375 50  0000 C CNN
+F 0 "J4" H 9392 2375 50  0000 C CNN
 F 1 "Conn_01x02_Female" H 9392 2466 50  0000 C CNN
-F 2 "" H 9500 2700 50  0001 C CNN
+F 2 "TerminalBlock_RND:TerminalBlock_RND_205-00287_1x02_P5.08mm_Horizontal" H 9500 2700 50  0001 C CNN
 F 3 "~" H 9500 2700 50  0001 C CNN
 	1    9500 2700
 	1    0    0    1   
@@ -87,12 +88,12 @@ $EndComp
 Text Notes 9000 3600 0    50   ~ 0
 0.1" Terminal Block
 $Comp
-L Connector:Conn_01x02_Female J?
+L Connector:Conn_01x02_Female J5
 U 1 1 5F169795
 P 9500 3450
-F 0 "J?" H 9392 3125 50  0000 C CNN
+F 0 "J5" H 9392 3125 50  0000 C CNN
 F 1 "Conn_01x02_Female" H 9392 3216 50  0000 C CNN
-F 2 "" H 9500 3450 50  0001 C CNN
+F 2 "TerminalBlock_TE-Connectivity:TerminalBlock_TE_282834-2_1x02_P2.54mm_Horizontal" H 9500 3450 50  0001 C CNN
 F 3 "~" H 9500 3450 50  0001 C CNN
 	1    9500 3450
 	1    0    0    1   
@@ -100,12 +101,12 @@ $EndComp
 Text Notes 9000 4300 0    50   ~ 0
 0.1" Terminal Block
 $Comp
-L Connector:Conn_01x02_Female J?
+L Connector:Conn_01x02_Female J6
 U 1 1 5F16A059
 P 9500 4150
-F 0 "J?" H 9392 3825 50  0000 C CNN
+F 0 "J6" H 9392 3825 50  0000 C CNN
 F 1 "Conn_01x02_Female" H 9392 3916 50  0000 C CNN
-F 2 "" H 9500 4150 50  0001 C CNN
+F 2 "TerminalBlock_TE-Connectivity:TerminalBlock_TE_282834-2_1x02_P2.54mm_Horizontal" H 9500 4150 50  0001 C CNN
 F 3 "~" H 9500 4150 50  0001 C CNN
 	1    9500 4150
 	1    0    0    1   
@@ -113,12 +114,12 @@ $EndComp
 Text Notes 9000 5000 0    50   ~ 0
 0.1" Terminal Block
 $Comp
-L Connector:Conn_01x02_Female J?
+L Connector:Conn_01x02_Female J7
 U 1 1 5F16B504
 P 9500 4850
-F 0 "J?" H 9392 4525 50  0000 C CNN
+F 0 "J7" H 9392 4525 50  0000 C CNN
 F 1 "Conn_01x02_Female" H 9392 4616 50  0000 C CNN
-F 2 "" H 9500 4850 50  0001 C CNN
+F 2 "TerminalBlock_TE-Connectivity:TerminalBlock_TE_282834-2_1x02_P2.54mm_Horizontal" H 9500 4850 50  0001 C CNN
 F 3 "~" H 9500 4850 50  0001 C CNN
 	1    9500 4850
 	1    0    0    1   
@@ -131,34 +132,201 @@ Text Notes 9950 4150 0    100  ~ 20
 LIMIT_2
 Text Notes 9950 4850 0    100  ~ 20
 ESTOP
-Text Notes 1300 1150 0    100  ~ 20
+Text Notes 850  1400 0    100  ~ 20
 28V IN
-$Comp
-L Connector:Conn_01x02_Female J?
-U 1 1 5F16DEFB
-P 1250 3350
-F 0 "J?" H 1142 3025 50  0000 C CNN
-F 1 "Conn_01x02_Female" H 1142 3116 50  0000 C CNN
-F 2 "" H 1250 3350 50  0001 C CNN
-F 3 "~" H 1250 3350 50  0001 C CNN
-	1    1250 3350
-	-1   0    0    1   
-$EndComp
 Text Notes 600  3550 0    100  ~ 20
 CAN
-$Comp
-L Connector:Conn_01x02_Female J?
-U 1 1 5F16F7C8
-P 1250 3750
-F 0 "J?" H 1142 3425 50  0000 C CNN
-F 1 "Conn_01x02_Female" H 1142 3516 50  0000 C CNN
-F 2 "" H 1250 3750 50  0001 C CNN
-F 3 "~" H 1250 3750 50  0001 C CNN
-	1    1250 3750
-	-1   0    0    1   
-$EndComp
 Text Notes 1000 3950 0    50   ~ 0
 0.1" Terminal Block
-Text Notes 4650 4650 0    50   ~ 0
-TODO: Sort out global ground.
+Text Notes 9950 2800 0    50   ~ 0
+100n across Motor
+$Comp
+L Connector:Conn_01x03_Female J2
+U 1 1 5E8DCB6E
+P 1300 3700
+F 0 "J2" H 1192 3375 50  0000 C CNN
+F 1 "Conn_01x03_Female" H 1192 3466 50  0000 C CNN
+F 2 "TerminalBlock_TE-Connectivity:TerminalBlock_TE_282834-3_1x03_P2.54mm_Horizontal" H 1300 3700 50  0001 C CNN
+F 3 "~" H 1300 3700 50  0001 C CNN
+	1    1300 3700
+	-1   0    0    1   
+$EndComp
+$Comp
+L Connector:Conn_01x03_Female J1
+U 1 1 5E8DD378
+P 1300 3100
+F 0 "J1" H 1192 2775 50  0000 C CNN
+F 1 "Conn_01x03_Female" H 1192 2866 50  0000 C CNN
+F 2 "TerminalBlock_TE-Connectivity:TerminalBlock_TE_282834-3_1x03_P2.54mm_Horizontal" H 1300 3100 50  0001 C CNN
+F 3 "~" H 1300 3100 50  0001 C CNN
+	1    1300 3100
+	-1   0    0    1   
+$EndComp
+$Comp
+L power:GND #PWR0101
+U 1 1 5E8DEA77
+P 1950 4200
+F 0 "#PWR0101" H 1950 3950 50  0001 C CNN
+F 1 "GND" H 1955 4027 50  0000 C CNN
+F 2 "" H 1950 4200 50  0001 C CNN
+F 3 "" H 1950 4200 50  0001 C CNN
+	1    1950 4200
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4950 1000 6250 1000
+Wire Wire Line
+	6250 1000 6250 2600
+Wire Wire Line
+	6250 2600 6550 2600
+Wire Wire Line
+	4950 2200 5150 2200
+Wire Wire Line
+	5150 2200 5150 2750
+Wire Wire Line
+	5150 2950 4950 2950
+Wire Wire Line
+	6550 2750 5150 2750
+Connection ~ 5150 2750
+Wire Wire Line
+	5150 2750 5150 2950
+Wire Wire Line
+	4950 2050 5300 2050
+Wire Wire Line
+	5300 2050 5300 3100
+Wire Wire Line
+	5300 3100 4950 3100
+Wire Wire Line
+	6550 2900 5900 2900
+Wire Wire Line
+	5900 2900 5900 1500
+Wire Wire Line
+	5900 1500 4950 1500
+Wire Wire Line
+	4950 1600 5800 1600
+Wire Wire Line
+	5800 1600 5800 3000
+Wire Wire Line
+	5800 3000 6550 3000
+Wire Wire Line
+	6550 3100 5700 3100
+Wire Wire Line
+	5700 3100 5700 1700
+Wire Wire Line
+	5700 1700 4950 1700
+$Comp
+L power:GND #PWR0102
+U 1 1 5E8E8010
+P 2650 1400
+F 0 "#PWR0102" H 2650 1150 50  0001 C CNN
+F 1 "GND" H 2655 1227 50  0000 C CNN
+F 2 "" H 2650 1400 50  0001 C CNN
+F 3 "" H 2650 1400 50  0001 C CNN
+	1    2650 1400
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3300 1250 2000 1250
+Wire Wire Line
+	2000 1350 2650 1350
+Wire Wire Line
+	2650 1350 2650 1400
+Wire Wire Line
+	1500 3000 2450 3000
+Wire Wire Line
+	2450 3000 2450 3250
+Wire Wire Line
+	2450 3250 2750 3250
+Wire Wire Line
+	2750 3500 2250 3500
+Wire Wire Line
+	2250 3500 2250 3100
+Wire Wire Line
+	2250 3100 1500 3100
+Wire Wire Line
+	2450 3250 2100 3250
+Wire Wire Line
+	2100 3250 2100 3600
+Wire Wire Line
+	2100 3600 1500 3600
+Connection ~ 2450 3250
+Wire Wire Line
+	2250 3500 2250 3700
+Wire Wire Line
+	2250 3700 1500 3700
+Connection ~ 2250 3500
+Wire Wire Line
+	1500 3200 1950 3200
+Wire Wire Line
+	1950 3200 1950 3800
+Wire Wire Line
+	1950 3800 1500 3800
+$Comp
+L Jumper:SolderJumper_2_Open JP1
+U 1 1 5E8EE3C7
+P 1950 4000
+F 0 "JP1" V 1904 4068 50  0000 L CNN
+F 1 "SolderJumper_2_Open" V 1995 4068 50  0000 L CNN
+F 2 "Jumper:SolderJumper-2_P1.3mm_Open_RoundedPad1.0x1.5mm" H 1950 4000 50  0001 C CNN
+F 3 "~" H 1950 4000 50  0001 C CNN
+	1    1950 4000
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	1950 3850 1950 3800
+Connection ~ 1950 3800
+Wire Wire Line
+	1950 4150 1950 4200
+Wire Wire Line
+	6550 3500 4950 3500
+Wire Wire Line
+	4950 3600 6550 3600
+Wire Wire Line
+	8400 2600 8400 2650
+Wire Wire Line
+	8400 2650 7750 2650
+Wire Wire Line
+	7750 2750 8500 2750
+Wire Wire Line
+	8500 2750 8500 2700
+Wire Wire Line
+	8500 2700 9300 2700
+Wire Wire Line
+	8400 2600 9300 2600
+Wire Wire Line
+	9300 3350 8800 3350
+Wire Wire Line
+	8800 3350 8800 2900
+Wire Wire Line
+	8800 2900 7750 2900
+Wire Wire Line
+	7750 3000 8700 3000
+Wire Wire Line
+	8700 3000 8700 3450
+Wire Wire Line
+	8700 3450 9300 3450
+Wire Wire Line
+	9300 4050 8500 4050
+Wire Wire Line
+	8500 4050 8500 3150
+Wire Wire Line
+	8500 3150 7750 3150
+Wire Wire Line
+	7750 3250 8400 3250
+Wire Wire Line
+	8400 3250 8400 4150
+Wire Wire Line
+	8400 4150 9300 4150
+Wire Wire Line
+	8150 4750 8150 3450
+Wire Wire Line
+	8150 3450 7750 3450
+Wire Wire Line
+	7750 3550 8050 3550
+Wire Wire Line
+	8050 3550 8050 4850
+Wire Wire Line
+	8050 4850 9300 4850
+Wire Wire Line
+	8150 4750 9300 4750
 $EndSCHEMATC
