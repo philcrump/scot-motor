@@ -208,4 +208,14 @@ Wire Wire Line
 Connection ~ 7150 4100
 Wire Wire Line
 	7150 4100 7450 4100
+Text Notes 4600 2750 0    100  ~ 20
+CAN Transceiver
+Wire Notes Line
+	2850 2450 8000 2450
+Wire Notes Line
+	8000 2450 8000 4850
+Wire Notes Line
+	8000 4850 2850 4850
+Wire Notes Line
+	2850 4850 2850 2450
 $EndSCHEMATC
