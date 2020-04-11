@@ -128,17 +128,6 @@ Wire Wire Line
 Wire Wire Line
 	3450 5100 3850 5100
 $Comp
-L agg-kicad:VCC #PWR0130
-U 1 1 5F0ED075
-P 8200 3250
-F 0 "#PWR0130" H 8200 3360 50  0001 L CNN
-F 1 "VCC" H 8200 3373 50  0000 C CNN
-F 2 "" H 8200 3250 50  0001 C CNN
-F 3 "" H 8200 3250 50  0001 C CNN
-	1    8200 3250
-	1    0    0    -1  
-$EndComp
-$Comp
 L power:GND #PWR0131
 U 1 1 5F0ED86E
 P 8200 3650
@@ -152,22 +141,6 @@ $EndComp
 Wire Wire Line
 	8200 3600 8200 3650
 Connection ~ 8200 3600
-Wire Wire Line
-	8200 3300 8200 3250
-Connection ~ 8200 3300
-$Comp
-L agg-kicad:VCC #PWR0132
-U 1 1 5F0F5376
-P 5600 5050
-F 0 "#PWR0132" H 5600 5160 50  0001 L CNN
-F 1 "VCC" H 5600 5173 50  0000 C CNN
-F 2 "" H 5600 5050 50  0001 C CNN
-F 3 "" H 5600 5050 50  0001 C CNN
-	1    5600 5050
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	5600 5050 5600 5100
 Wire Wire Line
 	5600 5100 5350 5100
 Connection ~ 5350 5100
@@ -183,7 +156,7 @@ F 3 "" H 4250 5400 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 Text HLabel 9500 3300 2    50   Input ~ 0
-3V3_MCU
+3V3_SWITCHES
 Wire Wire Line
 	9500 3300 9200 3300
 Connection ~ 9200 3300
@@ -214,17 +187,6 @@ $EndComp
 Wire Wire Line
 	9250 4750 9200 4750
 $Comp
-L agg-kicad:VCC #PWR0134
-U 1 1 5F111730
-P 8250 4700
-F 0 "#PWR0134" H 8250 4810 50  0001 L CNN
-F 1 "VCC" H 8250 4823 50  0000 C CNN
-F 2 "" H 8250 4700 50  0001 C CNN
-F 3 "" H 8250 4700 50  0001 C CNN
-	1    8250 4700
-	1    0    0    -1  
-$EndComp
-$Comp
 L power:GND #PWR0135
 U 1 1 5F11173A
 P 8250 5100
@@ -238,9 +200,6 @@ $EndComp
 Wire Wire Line
 	8250 5050 8250 5100
 Connection ~ 8250 5050
-Wire Wire Line
-	8250 4750 8250 4700
-Connection ~ 8250 4750
 Text HLabel 9550 4750 2    50   Input ~ 0
 5V_CAN
 Wire Wire Line
@@ -391,7 +350,7 @@ Wire Wire Line
 Text Notes 8250 4450 0    50   ~ 10
 6.5VDC -> 5VDC CAN Transceiver
 Text Notes 8400 3000 0    50   ~ 10
-6.5VDC -> 3.3VDC MCU
+6.5VDC -> 3.3VDC SWITCHES
 Text Notes 3900 4750 0    50   ~ 10
 28VDC -> 6.5VDC Power Input
 Text Notes 4000 2300 0    50   ~ 10
@@ -436,11 +395,11 @@ Wire Notes Line
 Wire Notes Line
 	7900 2800 7900 3950
 Wire Notes Line
-	7900 3950 10100 3950
+	7900 3950 10200 3950
 Wire Notes Line
-	10100 3950 10100 2800
+	10200 3950 10200 2800
 Wire Notes Line
-	10100 2800 7900 2800
+	10200 2800 7900 2800
 Wire Notes Line
 	7900 4250 7900 5400
 Wire Notes Line
@@ -460,4 +419,87 @@ Wire Notes Line
 Wire Wire Line
 	4750 2500 4450 2500
 Connection ~ 4750 2500
+$Comp
+L Regulator_Linear:MCP1703A-3302_SOT223 U11
+U 1 1 5E915E90
+P 8850 1950
+F 0 "U11" H 8850 2192 50  0000 C CNN
+F 1 "MCP1703A-3302_SOT223" H 8850 2101 50  0000 C CNN
+F 2 "Package_TO_SOT_SMD:SOT-223-3_TabPin2" H 8850 2150 50  0001 C CNN
+F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/20005122B.pdf" H 8850 1900 50  0001 C CNN
+	1    8850 1950
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:C C25
+U 1 1 5E915E9A
+P 8200 2100
+F 0 "C25" H 8315 2146 50  0000 L CNN
+F 1 "1u/6.5V" H 8315 2055 50  0000 L CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 8238 1950 50  0001 C CNN
+F 3 "~" H 8200 2100 50  0001 C CNN
+	1    8200 2100
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	8850 2250 8200 2250
+Wire Wire Line
+	8200 1950 8550 1950
+$Comp
+L Device:C C26
+U 1 1 5E915EA6
+P 9200 2100
+F 0 "C26" H 9315 2146 50  0000 L CNN
+F 1 "1u/3V3" H 9315 2055 50  0000 L CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 9238 1950 50  0001 C CNN
+F 3 "~" H 9200 2100 50  0001 C CNN
+	1    9200 2100
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	8850 2250 9200 2250
+Connection ~ 8850 2250
+Wire Wire Line
+	9200 1950 9150 1950
+$Comp
+L power:GND #PWR0119
+U 1 1 5E915EBD
+P 8200 2300
+F 0 "#PWR0119" H 8200 2050 50  0001 C CNN
+F 1 "GND" H 8205 2127 50  0000 C CNN
+F 2 "" H 8200 2300 50  0001 C CNN
+F 3 "" H 8200 2300 50  0001 C CNN
+	1    8200 2300
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	8200 2250 8200 2300
+Connection ~ 8200 2250
+Text HLabel 9500 1950 2    50   Input ~ 0
+3V3_MCU
+Wire Wire Line
+	9500 1950 9200 1950
+Connection ~ 9200 1950
+Text Notes 8400 1650 0    50   ~ 10
+6.5VDC -> 3.3VDC MCU
+Wire Notes Line
+	7900 1450 7900 2600
+Wire Notes Line
+	7900 2600 10100 2600
+Wire Notes Line
+	10100 2600 10100 1450
+Wire Notes Line
+	10100 1450 7900 1450
+Wire Wire Line
+	5600 4700 6100 4700
+Wire Wire Line
+	5600 4700 5600 5100
+Text Label 8600 4750 2    50   ~ 0
+6V5_SWREG
+Text Label 8550 3300 2    50   ~ 0
+6V5_SWREG
+Text Label 8550 1950 2    50   ~ 0
+6V5_SWREG
+Text Label 6100 4700 2    50   ~ 0
+6V5_SWREG
 $EndSCHEMATC
