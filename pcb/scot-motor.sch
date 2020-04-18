@@ -52,19 +52,8 @@ F 3 "~" H 1800 1350 50  0001 C CNN
 $EndComp
 Text Notes 1550 1550 0    50   ~ 0
 0.2" Terminal Block
-Text Notes 9000 2850 0    50   ~ 0
+Text Notes 9050 2950 0    50   ~ 0
 0.2" Terminal Block
-$Comp
-L Connector:Conn_01x02_Female J4
-U 1 1 5F16698D
-P 9500 2700
-F 0 "J4" H 9392 2375 50  0000 C CNN
-F 1 "Conn_01x02_Female" H 9392 2466 50  0000 C CNN
-F 2 "TerminalBlock_RND:TerminalBlock_RND_205-00287_1x02_P5.08mm_Horizontal" H 9500 2700 50  0001 C CNN
-F 3 "~" H 9500 2700 50  0001 C CNN
-	1    9500 2700
-	1    0    0    1   
-$EndComp
 Text Notes 9000 3600 0    50   ~ 0
 0.1" Terminal Block
 $Comp
@@ -408,4 +397,30 @@ F 3 "~" H 7100 5750 50  0001 C CNN
 	1    7100 5750
 	1    0    0    -1  
 $EndComp
+$Comp
+L Connector:Conn_01x03_Female J4
+U 1 1 5EA317F2
+P 9500 2700
+F 0 "J4" H 9392 2375 50  0000 C CNN
+F 1 "Conn_01x03_Female" H 9392 2466 50  0000 C CNN
+F 2 "TerminalBlock_RND:TerminalBlock_RND_205-00288_1x03_P5.08mm_Horizontal" H 9500 2700 50  0001 C CNN
+F 3 "~" H 9500 2700 50  0001 C CNN
+	1    9500 2700
+	1    0    0    1   
+$EndComp
+$Comp
+L power:GND #PWR0105
+U 1 1 5EA3B44A
+P 8950 2850
+F 0 "#PWR0105" H 8950 2600 50  0001 C CNN
+F 1 "GND" H 8955 2677 50  0000 C CNN
+F 2 "" H 8950 2850 50  0001 C CNN
+F 3 "" H 8950 2850 50  0001 C CNN
+	1    8950 2850
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	9300 2800 8950 2800
+Wire Wire Line
+	8950 2800 8950 2850
 $EndSCHEMATC
