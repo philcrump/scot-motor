@@ -4,12 +4,13 @@ Motor Interface for the SCOT.
 
 * 9-36V DC Input
 * STM32F042K6 Microcontroller @ 48MHz
-* CAN 2.0A/B Communication Interface
+* MCP2562 CAN 2.0A/B Communication Interface
 * DRV8872 3.6A PWM H-Bridge Motor Driver
+* INA260 Motor Voltage & Current Supply Monitoring
 * NCV8450 800mA Clutch Driver
-* E-Stop, End-of-travel Limit Switch support
-  * Opto-isolated from Logic Inputs
-  * Hardware Interlock Logic
+* E-Stop, End-of-travel Limit Interlocks support
+  * Hardware CMOS NAND Logic (no software override possibility)
+  * Opto-isolation of Switches from Logic Inputs (power supply not isolated)
 
 [**Circuit Board Schematic**](https://github.com/philcrump/scot-motor/raw/master/scot-motor-schematic.pdf)
 
