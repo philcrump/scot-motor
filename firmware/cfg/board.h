@@ -284,7 +284,7 @@
 
 #define VAL_GPIOB_ODR               (PIN_ODR_HIGH(GPIOB_PIN0) |           \
                                      PIN_ODR_HIGH(GPIOB_PIN1) |           \
-                                     PIN_ODR_HIGH(GPIOB_nBRAKE) |             \
+                                     PIN_ODR_LOW(GPIOB_nBRAKE) |             \
                                      PIN_ODR_HIGH(GPIOB_PIN4) |           \
                                      PIN_ODR_HIGH(GPIOB_VI_ALERT) |          \
                                      PIN_ODR_HIGH(GPIOB_VI_SCL) |          \

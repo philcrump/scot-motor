@@ -69,22 +69,58 @@ void can_send_sysinfo(const uint32_t gitversion, const int8_t temperature_degree
     canTransmitTimeout(&CAND1, CAN_ANY_MAILBOX, &txmsg, TIME_IMMEDIATE);
 }
 
+void can_send_motorinfo(
+  const int16_t motor_commanded,
+  const uint16_t voltage,
+  const int16_t current,
+  const uint8_t control_last_interval_ms,
+  const bool estop,
+  const bool limit_1,
+  const bool limit_2,
+  const bool motor_fault,
+  const bool control_timer_enable)
+{
+    CANTxFrame txmsg;
+
+    txmsg.IDE = CAN_IDE_STD; // Identifier Type: Standard
+    txmsg.SID = 0x024; // Standard Identifier Value (11bits)
+    txmsg.RTR = CAN_RTR_DATA; // Frame Type
+    txmsg.DLC = 8; // Data Length (max = 8)
+    txmsg.data16[0] = motor_commanded;
+    //txmsg.data8[1]
+    txmsg.data16[1] = voltage;
+    //txmsg.data8[3]
+    txmsg.data16[2] = current;
+    //txmsg.data8[5]
+    txmsg.data8[6] = control_last_interval_ms;
+    txmsg.data8[7] = estop << 7
+                    | limit_1 << 6
+                    | limit_2 << 5
+                    | motor_fault << 4
+                    | control_timer_enable << 3;
+
+    canTransmitTimeout(&CAND1, CAN_ANY_MAILBOX, &txmsg, TIME_IMMEDIATE);
+}
+
 static const uint8_t can_command_reset[5] = { 'R', 'E', 'S', 'E', 'T'};
 static void can_rx_process(CANRxFrame *message)
 {
   if(message->RTR == CAN_RTR_DATA
-    && message->IDE == CAN_IDE_STD
-    && message->SID == 0x01A)
+    && message->IDE == CAN_IDE_STD)
   {
-    if(message->DLC == sizeof(can_command_reset)
+    if(message->SID == 0x02A
+      && message->DLC == sizeof(can_command_reset)
       && 0 == memcmp(can_command_reset, message->data8, sizeof(can_command_reset)))
     {
       /* Reset Command! */
       system_reset();
     }
-    else
+    else if(message->SID == 0x02B
+      && message->DLC == 2)
     {
-      sdWriteString(&SD2, "Error: Received Unknown Command\r\n");
+      /* Motor Speed Command */
+      control_timer_feed();
+      motor_set_speed(message->data16[0]);
     }
   }
 }

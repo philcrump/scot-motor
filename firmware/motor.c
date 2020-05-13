@@ -14,9 +14,12 @@ static PWMConfig pwmcfg = {
   0                                         /* DMA/Interrupt Enable Register. */
 };
 
+static uint16_t motor_speed_commanded = 0;
+
 void motor_init(void)
 {
     pwmStart(&PWMD1, &pwmcfg);
+    motor_set_stop();
 }
 
 static inline void motor_set_stop_ch0(void)
@@ -42,10 +45,18 @@ void motor_set_stop(void)
   motor_set_stop_ch1();
 
   brake_set_engaged();
+
+  motor_speed_commanded = 0;
 }
 
-void motor_set_speed(int32_t speed)
+void motor_set_speed(int16_t speed)
 {
+  if(!control_timer_get_motor_enable())
+  {
+    motor_set_stop();
+    return;
+  }
+
   if(speed == 0)
   {
     motor_set_stop();
@@ -62,6 +73,7 @@ void motor_set_speed(int32_t speed)
         speed = 1024;
       }
       pwmEnableChannel(&PWMD1, 0, (uint32_t)speed);
+      motor_speed_commanded = speed;
     }
     else
     {
@@ -71,6 +83,7 @@ void motor_set_speed(int32_t speed)
         speed = -1024;
       }
       pwmEnableChannel(&PWMD1, 1, (uint32_t)(-1*speed));
+      motor_speed_commanded = speed;
     }
   }
   
@@ -79,4 +92,9 @@ void motor_set_speed(int32_t speed)
 bool motor_get_nfault(void)
 {
   return false;
+}
+
+int16_t motor_get_speed_commanded(void)
+{
+  return motor_speed_commanded;
 }

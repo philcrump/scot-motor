@@ -11,7 +11,7 @@ void brake_set_released(void)
 {
   if(!brake_state_released)
   {
-    palClearLine(LINE_nBRAKE);
+    palSetLine(LINE_nBRAKE);
     brake_state_released = true;
   }
 }
@@ -20,7 +20,7 @@ void brake_set_engaged(void)
 {
   if(brake_state_released)
   {
-    palSetLine(LINE_nBRAKE);
+    palClearLine(LINE_nBRAKE);
     brake_state_released = false;
   }
 }

@@ -11,6 +11,7 @@
 #include "limits.h"
 #include "motor.h"
 #include "vi.h"
+#include "control_timer.h"
 
 #define MIN(x,y) (x < y ? x : y)
 #define MAX(x,y) (x > y ? x : y)
