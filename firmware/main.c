@@ -20,6 +20,7 @@ void sdWriteString(SerialDriver *sdp, const char *string)
 
 THD_WORKING_AREA(can_rx_service_wa, 128);
 THD_WORKING_AREA(watchdog_service_wa, 128);
+THD_WORKING_AREA(diagnostics_service_wa, 128);
 
 int main(void)
 {
@@ -41,46 +42,16 @@ int main(void)
     system_reset();
   }
 
+  signals_init();
   motor_init();
 
   chThdCreateStatic(can_rx_service_wa, sizeof(can_rx_service_wa), NORMALPRIO, can_rx_service_thread, NULL);
 
-  systime_t start, end;
-  uint16_t vi_voltage;
-  int16_t vi_current;
-  uint32_t motor_control_interval;
+  chThdCreateStatic(diagnostics_service_wa, sizeof(diagnostics_service_wa), NORMALPRIO, diagnostics_service_thread, NULL);
+
   while(true)
   {
-    /* Set timer for 10s */
-    start = chVTGetSystemTime();
-    end = chTimeAddX(start, TIME_MS2I(10));
-    
-    can_send_sysinfo(GITVERSION_X32, system_mcutemperature());
-
-    vi_read_vi(&vi_voltage, &vi_current);
-    motor_control_interval = TIME_I2MS(control_timer_get_sysinterval_since_lastfeed());
-    if(motor_control_interval > 255)
-    {
-      motor_control_interval = 255;
-    }
-
-    can_send_motorinfo(
-      motor_get_speed_commanded(),
-      vi_voltage,
-      vi_current,
-      (uint8_t)motor_control_interval,
-      false, //estop
-      false, //limit_1
-      false, //limit_2
-      motor_get_nfault(),
-      control_timer_get_motor_enable()
-    );
-
-    while (chVTIsSystemTimeWithin(start, end))
-    {
-      /* Feed watchdog, sleep for 50ms, repeat */
-      chThdSleepMilliseconds(2);
-    }
+    chThdSleepMilliseconds(100);
     watchdog_feed(WATCHDOG_DOG_MAIN);
   }
 }

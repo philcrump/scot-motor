@@ -12,7 +12,6 @@ void can_send_motorinfo(
   const uint16_t voltage,
   const int16_t current,
   const uint8_t control_last_interval_ms,
-  const bool estop,
   const bool limit_1,
   const bool limit_2,
   const bool motor_fault,

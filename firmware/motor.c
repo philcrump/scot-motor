@@ -85,13 +85,7 @@ void motor_set_speed(int16_t speed)
       pwmEnableChannel(&PWMD1, 1, (uint32_t)(-1*speed));
       motor_speed_commanded = speed;
     }
-  }
-  
-}
-
-bool motor_get_nfault(void)
-{
-  return false;
+  } 
 }
 
 int16_t motor_get_speed_commanded(void)

@@ -124,10 +124,11 @@ CSRC = $(ALLCSRC) \
        watchdog.c \
        system.c \
        brake.c \
-       limits.c \
+       signals.c \
        motor.c \
        vi.c \
        control_timer.c \
+       diagnostics.c \
        main.c
 
 # C++ sources that can be compiled in ARM or THUMB mode depending on the global

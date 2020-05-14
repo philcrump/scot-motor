@@ -19,8 +19,6 @@
       Found empirically to be 1us per bit = 1Mb/s
 */
 
-static bool can_initialised = false;
-
 static const CANConfig can_cfg = {
   .mcr = CAN_MCR_TXFP | CAN_MCR_ABOM,
   .btr = CAN_BTR_SJW(2) | CAN_BTR_TS2(2) | CAN_BTR_TS1(11) | CAN_BTR_BRP(2)
@@ -34,20 +32,6 @@ static const CANFilter can_filter = {
   .register1 = 0x0020, // identifier 1
   .register2 = 0x07F0 // mask if mask mode, identifier2 if list mode
 };
-
-void can_init(void)
-{
-    if(can_initialised)
-    {
-        return;
-    }
-
-    canSTM32SetFilters(&CAND1, 1, 1, &can_filter);
-
-    canStart(&CAND1, &can_cfg);
-
-    can_initialised = true;
-}
 
 void can_send_sysinfo(const uint32_t gitversion, const int8_t temperature_degrees)
 {
@@ -74,7 +58,6 @@ void can_send_motorinfo(
   const uint16_t voltage,
   const int16_t current,
   const uint8_t control_last_interval_ms,
-  const bool estop,
   const bool limit_1,
   const bool limit_2,
   const bool motor_fault,
@@ -93,11 +76,10 @@ void can_send_motorinfo(
     txmsg.data16[2] = current;
     //txmsg.data8[5]
     txmsg.data8[6] = control_last_interval_ms;
-    txmsg.data8[7] = estop << 7
-                    | limit_1 << 6
-                    | limit_2 << 5
-                    | motor_fault << 4
-                    | control_timer_enable << 3;
+    txmsg.data8[7] = limit_1 << 7
+                    | limit_2 << 6
+                    | motor_fault << 5
+                    | control_timer_enable << 4;
 
     canTransmitTimeout(&CAND1, CAN_ANY_MAILBOX, &txmsg, TIME_IMMEDIATE);
 }
@@ -132,8 +114,8 @@ THD_FUNCTION(can_rx_service_thread, arg)
     msg_t result;
     CANRxFrame rxmsg;
 
-    /* Should have been init-ed by main(), but let's make sure */
-    can_init();
+    canSTM32SetFilters(&CAND1, 1, 1, &can_filter);
+    canStart(&CAND1, &can_cfg);
 
     while(1)
     {

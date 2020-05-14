@@ -1,11 +1,13 @@
 #ifndef __WATCHDOG_H__
 #define __WATCHDOG_H__
 
-#define WATCHDOG_DOG_MAIN       0
-#define WATCHDOG_DOG_CANRX      1
+#define WATCHDOG_DOG_MAIN        0
+#define WATCHDOG_DOG_CANRX       1
+#define WATCHDOG_DOG_DIAGNOSTICS 2
 
 #define WATCHDOG_MASK       ((1 << WATCHDOG_DOG_MAIN) \
-                             | (1 << WATCHDOG_DOG_CANRX))
+                             | (1 << WATCHDOG_DOG_CANRX) \
+                             | (1 << WATCHDOG_DOG_DIAGNOSTICS))
 
 void watchdog_init(void);
 

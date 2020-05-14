@@ -65,7 +65,7 @@ class PCANBus(object):
 
 pcan = PCANBus()
 
-motor_command = -200
+motor_command = 100
 motor_command_bytes = motor_command.to_bytes(2, byteorder=sys.byteorder, signed=True)
 
 print(f"Sending Messages...")
@@ -74,60 +74,74 @@ keeprunning = True
 messages_sent = 0
 msg = can.Message(arbitration_id=0x02B, is_extended_id=False, data=motor_command_bytes)
 
+def recv_message(message):
+    if message.arbitration_id == 0x23 and message.dlc == 8:
+        # Sysinfo Message
+        firmware_version = (message.data[0] << 20) | (message.data[1] << 12) | (message.data[2] << 4) | (message.data[3] & 0xF0) >> 4;
+        firmware_dirty = True if (message.data[3] & 0x0F) == 0x0F else False;
+        temperature = message.data[4];
+        if temperature > 60:
+            temperature_colour = bcolors.WARNING
+        else:
+            temperature_colour = bcolors.OKGREEN
+        can_esr_rx = message.data[6];
+        if can_esr_rx > 0:
+            can_esr_rx_colour = bcolors.WARNING
+        else:
+            can_esr_rx_colour = bcolors.OKGREEN
+        can_esr_tx = message.data[7];
+        if can_esr_tx > 0:
+            can_esr_tx_colour = bcolors.WARNING
+        else:
+            can_esr_tx_colour = bcolors.OKGREEN
+
+        print("FW: %07x%s, %sTemperature: %+3d°C%s, %sCAN RX Errors: %3d%s, %sCAN TX Errors: %3d%s" \
+         % (firmware_version, "-dirty" if firmware_dirty else "-clean", \
+            temperature_colour, temperature, bcolors.OFF, \
+            can_esr_rx_colour, can_esr_rx, bcolors.OFF, \
+            can_esr_tx_colour, can_esr_tx, bcolors.OFF))
+    elif message.arbitration_id == 0x24 and message.dlc == 8:
+        # Motor info Message
+        speed_commanded = int.from_bytes([message.data[0], message.data[1]], byteorder='little', signed=True)
+        voltage = int.from_bytes([message.data[2], message.data[3]], byteorder='little', signed=False)
+        current = int.from_bytes([message.data[4], message.data[5]], byteorder='little', signed=True)
+        ms_since_last_command = message.data[6]
+        limit_1 = (message.data[7] >> 7) & 0x01;
+        limit_2 = (message.data[7] >> 6) & 0x01;
+        pwmfault = (message.data[7] >> 5) & 0x01;
+        control_enable = (message.data[7] >> 4) & 0x01;
+
+        print("Speed: %+4d, Voltage: %.3f, Current: %+.3f, L1: %s%d%s, L2: %s%d%s, PWM: %s%d%s, Control: %s%d%s, since last command: %dms" \
+         % (speed_commanded, \
+            (voltage*1.25) / 1000.0, \
+            (current*1.25) / 1000.0, \
+            bcolors.WARNING if limit_1 else bcolors.OKGREEN, limit_1, bcolors.OFF,
+            bcolors.WARNING if limit_2 else bcolors.OKGREEN, limit_2, bcolors.OFF,
+            bcolors.WARNING if pwmfault else bcolors.OKGREEN, pwmfault, bcolors.OFF,
+            bcolors.OKGREEN if control_enable else bcolors.WARNING, control_enable, bcolors.OFF,
+            ms_since_last_command))
+
 def send_message():
     global messages_sent, keeprunning
     pcan.send(msg)
     messages_sent = messages_sent + 1
     if keeprunning:
         threading.Timer(0.01, send_message).start()
-    message = pcan.receiveOrNone()
-    if message != None:
-        if message.arbitration_id == 0x23 and message.dlc == 8:
-            # Sysinfo Message
-            firmware_version = (message.data[0] << 20) | (message.data[1] << 12) | (message.data[2] << 4) | (message.data[3] & 0xF0) >> 4;
-            firmware_dirty = True if (message.data[3] & 0x0F) == 0x0F else False;
-            temperature = message.data[4];
-            if temperature > 60:
-                temperature_colour = bcolors.WARNING
-            else:
-                temperature_colour = bcolors.OKGREEN
-            can_esr_rx = message.data[6];
-            if can_esr_rx > 0:
-                can_esr_rx_colour = bcolors.WARNING
-            else:
-                can_esr_rx_colour = bcolors.OKGREEN
-            can_esr_tx = message.data[7];
-            if can_esr_tx > 0:
-                can_esr_tx_colour = bcolors.WARNING
-            else:
-                can_esr_tx_colour = bcolors.OKGREEN
-
-            print("FW: %07x%s, %sTemperature: %+3d°C%s, %sCAN RX Errors: %3d%s, %sCAN TX Errors: %3d%s" \
-             % (firmware_version, "-dirty" if firmware_dirty else "-clean", \
-                temperature_colour, temperature, bcolors.OFF, \
-                can_esr_rx_colour, can_esr_rx, bcolors.OFF, \
-                can_esr_tx_colour, can_esr_tx, bcolors.OFF))
-        elif message.arbitration_id == 0x24 and message.dlc == 8:
-            # Motor info Message
-            speed_commanded = int.from_bytes([message.data[0], message.data[1]], byteorder='little', signed=True)
-            voltage = int.from_bytes([message.data[2], message.data[3]], byteorder='little', signed=False)
-            current = int.from_bytes([message.data[4], message.data[5]], byteorder='little', signed=True)
-            ms_since_last_command = message.data[6]
-            print(voltage)
-
-            print("Speed: %+4d, Voltage: %.3f, Current: %+.3f, milliseconds since last: %d" \
-             % (speed_commanded, \
-                (voltage*1.25) / 1000.0, \
-                (current*1.25) / 1000.0, \
-                ms_since_last_command))
+        message = pcan.receiveOrNone()
+        if message != None:
+            recv_message(message)
+    else:
+        print(f"Stopping...")
 
 send_message()
 
 time.sleep(5)
-
-print(f"Stopping...")
 keeprunning = False
-time.sleep(1)
-print(f"Sent {messages_sent} messages.")
+
+while(1):
+    # https://python-can.readthedocs.io/en/master/message.html#can.Message.data
+    message = pcan.receive()
+    if message != None:
+        recv_message(message)
 
 pcan.cleanup()

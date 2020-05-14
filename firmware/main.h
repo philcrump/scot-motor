@@ -8,10 +8,11 @@
 #include "watchdog.h"
 #include "system.h"
 #include "brake.h"
-#include "limits.h"
+#include "signals.h"
 #include "motor.h"
 #include "vi.h"
 #include "control_timer.h"
+#include "diagnostics.h"
 
 #define MIN(x,y) (x < y ? x : y)
 #define MAX(x,y) (x > y ? x : y)
