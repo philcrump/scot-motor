@@ -4,6 +4,7 @@
 #include "ch.h"
 #include "hal.h"
 
+#include "config.h"
 #include "can.h"
 #include "watchdog.h"
 #include "system.h"

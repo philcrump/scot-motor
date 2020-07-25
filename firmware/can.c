@@ -1,6 +1,14 @@
 #include "main.h"
 
 #include <string.h>
+
+extern uint32_t config_can_address_prefix;
+
+#define CAN_ADDRESS_SYSINFO   0x3
+#define CAN_ADDRESS_MOTORINFO 0x4
+#define CAN_ADDRESS_COMMAND   0xA
+#define CAN_ADDRESS_MOTORPWM  0xB
+
 /*
   CAN_MCR_ABOM - Automatic Bus-Off Management
   CAN_MCR_AWUM - Automatic Wake-Up Management
@@ -24,12 +32,12 @@ static const CANConfig can_cfg = {
   .btr = CAN_BTR_SJW(2) | CAN_BTR_TS2(2) | CAN_BTR_TS1(11) | CAN_BTR_BRP(2)
 };
 
-static const CANFilter can_filter = {
+static CANFilter can_filter = {
   .filter = 1, // Number of filter bank to be programmed
   .mode = 0, // 0 = mask, 1 = list
   .scale = 0, // 0 = 16bits, 1 = 32bits
   .assignment = 0, // (must be set to 0)
-  .register1 = 0x0020, // identifier 1
+  .register1 = 0x0, // identifier 1 (loaded from config at runtime)
   .register2 = 0x07F0 // mask if mask mode, identifier2 if list mode
 };
 
@@ -38,7 +46,7 @@ void can_send_sysinfo(const uint32_t gitversion, const int8_t temperature_degree
     CANTxFrame txmsg;
 
     txmsg.IDE = CAN_IDE_STD; // Identifier Type: Standard
-    txmsg.SID = 0x023; // Standard Identifier Value (11bits)
+    txmsg.SID = config_can_address_prefix | CAN_ADDRESS_SYSINFO; // Standard Identifier Value (11bits)
     txmsg.RTR = CAN_RTR_DATA; // Frame Type
     txmsg.DLC = 8; // Data Length (max = 8)
     txmsg.data8[0] = (gitversion >> 24) & 0xFF;
@@ -66,7 +74,7 @@ void can_send_motorinfo(
     CANTxFrame txmsg;
 
     txmsg.IDE = CAN_IDE_STD; // Identifier Type: Standard
-    txmsg.SID = 0x024; // Standard Identifier Value (11bits)
+    txmsg.SID = config_can_address_prefix | CAN_ADDRESS_MOTORINFO; // Standard Identifier Value (11bits)
     txmsg.RTR = CAN_RTR_DATA; // Frame Type
     txmsg.DLC = 8; // Data Length (max = 8)
     txmsg.data16[0] = motor_commanded;
@@ -90,19 +98,24 @@ static void can_rx_process(CANRxFrame *message)
   if(message->RTR == CAN_RTR_DATA
     && message->IDE == CAN_IDE_STD)
   {
-    if(message->SID == 0x02A
-      && message->DLC == sizeof(can_command_reset)
-      && 0 == memcmp(can_command_reset, message->data8, sizeof(can_command_reset)))
+    if((message->SID & 0x7F0) == config_can_address_prefix)
     {
-      /* Reset Command! */
-      system_reset();
-    }
-    else if(message->SID == 0x02B
-      && message->DLC == 2)
-    {
-      /* Motor Speed Command */
-      control_timer_feed();
-      motor_set_speed(message->data16[0]);
+      /* Message is for us */
+      if((message->SID & 0xF) == CAN_ADDRESS_COMMAND)
+      {
+        /* Command Message */
+        if(0 == memcmp(can_command_reset, message->data8, sizeof(can_command_reset)))
+        {
+          /* Reset Command! */
+          system_reset();
+        }
+      }
+      else if((message->SID & 0xF) == CAN_ADDRESS_MOTORPWM)
+      {
+        /* Motor PWM Command */
+        control_timer_feed();
+        motor_set_speed(message->data16[0]);
+      }
     }
   }
 }
@@ -114,7 +127,9 @@ THD_FUNCTION(can_rx_service_thread, arg)
     msg_t result;
     CANRxFrame rxmsg;
 
+    can_filter.register1 = config_can_address_prefix;
     canSTM32SetFilters(&CAND1, 1, 1, &can_filter);
+
     canStart(&CAND1, &can_cfg);
 
     while(1)

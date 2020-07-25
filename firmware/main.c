@@ -1,6 +1,8 @@
 #include "main.h"
-
 #include "chprintf.h"
+
+extern char config_device_id_hexstr[25];
+extern char config_can_address_prefix_hexstr[5];
 
 static const SerialConfig serial_cfg = {
   115200,
@@ -30,11 +32,19 @@ int main(void)
   watchdog_init();
   chThdCreateStatic(watchdog_service_wa, sizeof(watchdog_service_wa), HIGHPRIO, watchdog_service_thread, NULL);
 
+  config_init();
+
   /* Start Debug Console */
   sdStart(&SD2, &serial_cfg);
 
   sdWriteString(&SD2, "SCOT Motor Interface - Phil Crump M0DNY\r\n");
   sdWriteString(&SD2, " - Version: " GITVERSION "\r\n");
+  sdWriteString(&SD2, " - STM32 ID: ");
+  sdWriteString(&SD2, config_device_id_hexstr);
+  sdWriteString(&SD2, "\r\n");
+  sdWriteString(&SD2, " - CAN ADDRESS: ");
+  sdWriteString(&SD2, config_can_address_prefix_hexstr);
+  sdWriteString(&SD2, "\r\n");
 
   if(!vi_init())
   {
