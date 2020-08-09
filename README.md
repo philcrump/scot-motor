@@ -20,4 +20,4 @@ Motor Interface for the SCOT.
 
 ### Errata - April 2020
 
-* 0603 footprint used for C3 (4.7uF, 25V), should be 0805 - Minimal impact, 0805 still fits.
+* ~~0603 footprint used for C3 (4.7uF, 25V), should be 0805 - Minimal impact, 0805 still fits.~~ - Fixed in August 2020.

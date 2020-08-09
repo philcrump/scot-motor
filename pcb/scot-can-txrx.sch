@@ -193,7 +193,7 @@ AR Path="/5E4877AC/5E8932CF" Ref="C?"  Part="1"
 AR Path="/5E55A5CD/5E8932CF" Ref="C3"  Part="1" 
 F 0 "C3" H 7265 3896 50  0000 L CNN
 F 1 "4u7/5V" H 7265 3805 50  0000 L CNN
-F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 7188 3700 50  0001 C CNN
+F 2 "Capacitor_SMD:C_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 7188 3700 50  0001 C CNN
 F 3 "~" H 7150 3850 50  0001 C CNN
 	1    7150 3850
 	1    0    0    -1  
